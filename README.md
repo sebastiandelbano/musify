@@ -26,8 +26,11 @@ It compiles ABC code blocks into:
 
 Here is an example of the compiled visual sheet music and interactive audio controller:
 
-![Rendered Sheet Music Screenshot and Playback Controller](resources/images/demo_score.png)
+![Rendered Sheet Music Screenshot](resources/images/demo_score.png)
+*Figure: Visual sheet music output (placeholder—replace with your own screenshot).*
 
+![Audio Playback Controller Screenshot](resources/images/demo_audio.png)
+*Figure: Interactive inline audio controller (placeholder—replace with your own screenshot).*
 
 [👉 View Live Interactive Demo Page](https://sebastiandelbanorollin.github.io/musify/)
 
@@ -38,7 +41,7 @@ Here is an example of the compiled visual sheet music and interactive audio cont
 To add the extension to your Quarto project, run the following command in your terminal:
 
 ```bash
-quarto add sebastiandelbanorollin/musify
+quarto add sebastiandelbano/musify
 ```
 
 ---
@@ -52,6 +55,9 @@ Musify relies on several external utilities to render sheets and synthesize audi
 3. **`fluidsynth`**: For synthesizing MIDI sequences into high-quality WAV audio.
 4. **`ffmpeg`**: For converting WAV audio into WebM format for browser playback.
 5. **Python 3**: Used for backend execution.
+
+> [!TIP]
+> On Windows, you can install the latest official `abc2svg` using the instructions provided in [abc2svg.md](abc2svg.md) to run it natively.
 
 ### SoundFont Setup
 Audio synthesis requires a SoundFont file (e.g. *Timbres of Heaven*). By default, Musify searches for the SoundFont file at the local user path:
@@ -70,8 +76,7 @@ musify:
 
 ## Usage
 
-Enable the filter by adding `sebastiandelbanorollin/musify` to your document's
-frontmatter, and use `{.abc}` code blocks:
+Enable the filter by adding `sebastiandelbanorollin/musify` to your document's frontmatter, and use `{abc}` code blocks:
 
 ```markdown
 ---
@@ -86,6 +91,7 @@ filters:
 X: 1
 K: C
 CDEF | GABc | cBAG | FEDC |
+```
 ```
 
 ### Code Block Options
