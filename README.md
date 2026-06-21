@@ -2,22 +2,22 @@
   <img src="_extensions/sebastiandelbano/musify/resources/images/musifyDark.svg" alt="Musify Logo" width="260"/>
 </p>
 
-# Musify: Quarto Extension for Music Notation
+# Musify: Quarto Extension for abc Music Notation
 
 Musify is a [Quarto](https://quarto.org/) extension that allows you to embed high-quality, interactive music notation and synthesized audio directly into your documents using [ABC notation](https://abcnotation.com/).
 
 It compiles ABC code blocks into:
-* 🎼 **Visual Sheet Music**: Scalable Vector Graphics (SVG) using `abc2svg` / `abcnode`.
+* 🎼 **Visual Sheet Music**: Scalable Vector Graphics (SVG) using `abc2svg`/`abcnode`.
 * 🔊 **Audio Playback**: WebM audio files synthesized via `abc2midi`, `fluidsynth`, and `ffmpeg`.
 
 ---
 
 ## Features
 
-* **Cross-Platform Support**: Fully compatible out-of-the-box on Windows, macOS, and Linux.
+* **Cross-Platform**: Compatible on Windows, macOS, and Linux.
 * **Integrated Audio Player**: Automatically generates and embeds an HTML5 audio controller inline.
-* **SoundFont Synthesis**: Re-renders MIDI files into rich audio using Fluidsynth and high-quality SoundFonts.
-* **Flexible Customization**: Configure global options in `_quarto.yml` or override settings per-block.
+* **SoundFont Synthesis**: Re-renders MIDI files into audio using Fluidsynth and high-quality SoundFonts.
+* **Customization**: Configure global options in `_quarto.yml` or override settings per-block.
 * **Cached Builds**: Only regenerates assets when the ABC source code changes, speeding up document compiles.
 
 ---
@@ -27,12 +27,8 @@ It compiles ABC code blocks into:
 Here is an example of the compiled visual sheet music and interactive audio controller:
 
 ![Rendered Sheet Music Screenshot](resources/images/demo_score.png)
-*Figure: Visual sheet music output (placeholder—replace with your own screenshot).*
 
-![Audio Playback Controller Screenshot](resources/images/demo_audio.png)
-*Figure: Interactive inline audio controller (placeholder—replace with your own screenshot).*
-
-[👉 View Live Interactive Demo Page](https://sebastiandelbano.github.io/musify/)
+[👉 Live Demo](https://sebastiandelbano.github.io/musify/)
 
 ---
 
@@ -56,9 +52,6 @@ Musify relies on several external utilities to render sheets and synthesize audi
 4. **`ffmpeg`**: For converting WAV audio into WebM format for browser playback.
 5. **Python 3**: Used for backend execution.
 
-> [!TIP]
-> On Windows, you can install the latest official `abc2svg` using the instructions provided in [abc2svg.md](abc2svg.md) to run it natively.
-
 ### SoundFont Setup
 Audio synthesis requires a SoundFont file (e.g. *Timbres of Heaven*). By default, Musify searches for the SoundFont file at the local user path:
 * **Windows**: `%USERPROFILE%\.local\share\soundfonts\timbresOfHeaven4.00.sf2`
@@ -76,7 +69,7 @@ musify:
 
 ## Usage
 
-Enable the filter by adding `sebastiandelbano/musify` to your document's frontmatter, and use `{abc}` code blocks:
+Enable the filter by adding `sebastiandelbano/musify` to your document's frontmatter, and use `{.abc}` code blocks:
 
 ```markdown
 ---
@@ -85,7 +78,7 @@ filters:
   - sebastiandelbano/musify
 ---
 
-## Example Piece
+## C Major Scale
 
 ```{.abc scoreName="CMajorScale" visual="true" audio="true" fig-cap="A simple scale"}
 X: 1
