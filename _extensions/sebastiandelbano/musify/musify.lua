@@ -314,13 +314,36 @@ return {
         dark_base64 = "data:image/svg+xml;base64," .. base64_encode(content)
       end
       local html = string.format([[
-<div style="position: absolute; top: 0px; right: 20px; z-index: 000;">
+<div class="musify-top-logo">
 <!-- Light mode logo (hidden in dark mode) -->
-<img src="%s" class="quarto-light-logo" style="height: 256px; width: auto; display: block;">
+<img src="%s" class="quarto-light-logo">
 <!-- Dark mode logo (hidden in light mode) -->
-<img src="%s" class="quarto-dark-logo" style="height: 256px; width: auto; display: none;">
+<img src="%s" class="quarto-dark-logo">
 </div>
 <style>
+.musify-top-logo {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  z-index: 100;
+}
+.musify-top-logo img {
+  height: 256px;
+  width: auto;
+}
+@media (max-width: 768px) {
+  .musify-top-logo {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin: 10px auto 20px auto;
+    display: flex;
+    justify-content: center;
+  }
+  .musify-top-logo img {
+    height: 120px !important;
+  }
+}
 /* Quarto dynamically adds these classes to the <body> tag when switching themes */
 body.quarto-light .quarto-light-logo { display: block !important; }
 body.quarto-light .quarto-dark-logo { display: none !important; }
