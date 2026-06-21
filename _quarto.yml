@@ -1,0 +1,23 @@
+project:
+  type: default
+  output-dir: output
+format:
+  html:
+    title: Template file # this can be overridden in each .qmd file
+    toc: true
+    toc-location: left
+    favicon: resources/images/favicon.png
+    include-in-header:
+      - resources/include/favicon.html
+    embed-resources: true
+    self-contained: true
+    code-overflow: wrap
+    copyright:
+      text: © 2026, Sebastian del Bano Rollin
+    theme:
+      dark: darkly
+      light: flatly
+    syntax-definitions:
+      - _extensions/sebastiandelbanorollin/musify/resources/syntax/abc2.xml
+filters:
+  - sebastiandelbanorollin/musify

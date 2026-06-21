@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<!-- Spiced up ABC Music Notation Syntax Highlighting -->
+<language name="ABC" version="2" section="Markup" kateversion="5.0">
+  <highlighting>
+    <contexts>
+      <context name="Normal" attribute="Normal Text" lineEndContext="#stay">
+        
+        <!-- MIDI and Preprocessor Directives -->
+        <RegExpr String="^%%.*$" attribute="Directive" context="#stay" />
+
+        <!-- Header Fields: X:, T:, K:, etc. at start of line -->
+        <RegExpr String="^[A-Zw]:" attribute="Header Prefix" context="HeaderValue" />
+        
+        <!-- Inline Fields like [V:1] or [K:D] -->
+        <RegExpr String="\[[A-Z]:[^\]]*\]" attribute="Inline Field" context="#stay" />
+
+        <!-- Comments -->
+        <DetectChar char="%" attribute="Comment" context="Comment"/>
+        
+        <!-- Barlines: |, ||, [|, |], :|, |:, etc. -->
+        <RegExpr String="(\|[|\]:]?)|(\[\|)|(:\|)" attribute="Barline" context="#stay"/>
+        
+        <!-- Chords: [CEG] -->
+        <DetectChar char="[" attribute="Chord" context="ChordContext"/>
+        
+        <!-- Grace Notes: {abc} -->
+        <DetectChar char="{" attribute="Grace Note" context="GraceContext"/>
+
+        <!-- Decorations: !trill!, +segno+ -->
+        <RegExpr String="![^!]*!" attribute="Decoration" context="#stay"/>
+        <RegExpr String="\+[^\]]*\+" attribute="Decoration" context="#stay"/>
+
+        <!-- Notes: A-G and a-g -->
+        <RegExpr String="[A-Ga-g]" attribute="Note" context="#stay"/>
+        
+        <!-- Rests: z, x, Z -->
+        <RegExpr String="[zxZ]" attribute="Rest" context="#stay"/>
+        
+        <!-- Accidentals: ^, _, = -->
+        <RegExpr String="[\^=_]+" attribute="Accidental" context="#stay"/>
+        
+        <!-- Durations: numbers and / -->
+        <RegExpr String="[0-9/]+" attribute="Duration" context="#stay"/>
+
+        <!-- Strings (for chords or annotations) -->
+        <DetectChar char="&quot;" attribute="String" context="StringContext" />
+
+        <!-- Tuplets: (2, (3, etc. -->
+        <RegExpr String="\([2-9]" attribute="Tuplet" context="#stay" />
+
+      </context>
+      
+      <!-- Inside Header line -->
+      <context name="HeaderValue" attribute="Header Value" lineEndContext="#pop">
+        <RegExpr String=".*" attribute="Header Value" context="#pop" />
+      </context>
+
+      <!-- Inside Comments -->
+      <context name="Comment" attribute="Comment" lineEndContext="#pop" />
+      
+      <!-- Inside Strings -->
+      <context name="StringContext" attribute="String" lineEndContext="#pop">
+        <DetectChar char="&quot;" attribute="String" context="#pop" />
+      </context>
+
+      <!-- Inside Chords -->
+      <context name="ChordContext" attribute="Chord" lineEndContext="#pop">
+        <DetectChar char="]" attribute="Chord" context="#pop" />
+        <RegExpr String="[A-Ga-g]" attribute="Note" context="#stay" />
+        <RegExpr String="[\^=_]+" attribute="Accidental" context="#stay" />
+        <RegExpr String="[0-9/]+" attribute="Duration" context="#stay" />
+      </context>
+
+      <!-- Inside Grace Notes -->
+      <context name="GraceContext" attribute="Grace Note" lineEndContext="#pop">
+        <DetectChar char="}" attribute="Grace Note" context="#pop" />
+        <RegExpr String="[A-Ga-g]" attribute="Note" context="#stay" />
+        <RegExpr String="[\^=_]+" attribute="Accidental" context="#stay" />
+      </context>
+
+    </contexts>
+
+    <itemDatas>
+      <itemData name="Normal Text"    defStyleNum="dsNormal" />
+      <itemData name="Header Prefix"  defStyleNum="dsKeyword" color="#8e44ad" bold="1" /> <!-- Purple -->
+      <itemData name="Header Value"   defStyleNum="dsComment" /> <!-- Grey (mapped to dsComment) -->
+      <itemData name="Inline Field"   defStyleNum="dsImport" color="#cb4b16" /> <!-- Orange -->
+      <itemData name="Directive"      defStyleNum="dsPreprocessor" color="#859900" italic="1" /> <!-- Green -->
+      <itemData name="Comment"         defStyleNum="dsComment" color="#93a1a1" /> <!-- Grey -->
+      <itemData name="Barline"         defStyleNum="dsFunction" color="#073642" bold="1" /> <!-- Dark Teal -->
+      <itemData name="Note"            defStyleNum="dsNormal" /> <!-- Default Text Color -->
+      <itemData name="Rest"            defStyleNum="dsNormal" /> <!-- Default Text Color -->
+      <itemData name="Chord"           defStyleNum="dsOthers" color="#b58900" /> <!-- Yellow/Gold -->
+      <itemData name="Grace Note"      defStyleNum="dsOthers" color="#2aa198" italic="1" /> <!-- Cyan -->
+      <itemData name="Accidental"      defStyleNum="dsOperator" color="#dc322f" bold="1" /> <!-- Red -->
+      <itemData name="Duration"        defStyleNum="dsDecVal" color="#d33682" /> <!-- Magenta -->
+      <itemData name="Decoration"      defStyleNum="dsAttribute" color="#cb4b16" /> <!-- Orange -->
+      <itemData name="String"          defStyleNum="dsString" color="#2aa198" /> <!-- Cyan -->
+      <itemData name="Tuplet"          defStyleNum="dsBaseN" color="#d33682" bold="1" />
+    </itemDatas>
+  </highlighting>
+  <general>
+    <comments>
+      <comment name="singleLine" start="%" />
+    </comments>
+  </general>
+</language>

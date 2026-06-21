@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language name="ABC" version="1" section="Markup" kateversion="5.0">
+  <highlighting>
+    <contexts>
+      <context name="Normal" attribute="Normal Text" lineEndContext="#stay">
+        <!-- Header Prefixes: Capital letter or w followed by colon at start of line -->
+        <!-- Only the prefix (e.g., "X:") is colored green. -->
+        <!-- We switch to 'HeaderValue' context for the rest of the line. -->
+        <RegExpr String="^[A-Zw]:" attribute="Header" context="HeaderValue" />
+        
+        <!-- Comments: % to end of line -->
+        <DetectChar char="%" attribute="Comment" context="Comment"/>
+        
+        <!-- Bar lines: |, ||, [|, |], :|, |: -->
+        <RegExpr String="\|+|\[\||\|\]|:\||\|:" attribute="Barline" context="#stay"/>
+        
+        <!-- Notes: A-G, a-g, z (rest), x (invisible rest) -->
+        <RegExpr String="[A-Ga-gzx]" attribute="Note" context="#stay"/>
+        
+        <!-- Accidentals and other symbols -->
+        <RegExpr String="[\^=_]" attribute="Accidental" context="#stay"/>
+        
+        <!-- Strings/text (generic) -->
+        <StringDetect String="&quot;" attribute="String" context="String" />
+      </context>
+      
+      <!-- Context for the rest of the header line -->
+      <context name="HeaderValue" attribute="HeaderValue" lineEndContext="#pop">
+         <!-- You can add specific highlighting for header values here if needed -->
+      </context>
+
+      <context name="Comment" attribute="Comment" lineEndContext="#pop" />
+      
+      <context name="String" attribute="String" lineEndContext="#pop">
+        <StringDetect String="&quot;" attribute="String" context="#pop" />
+      </context>
+    </contexts>
+
+    <itemDatas>
+      <itemData name="Normal Text" defStyleNum="dsNormal" />
+      <!-- Header Prefix -> Green -->
+      <itemData name="Header" defStyleNum="dsKeyword" color="#00aa00" selColor="#00ff00" bold="1"/>
+      <!-- Header Value -> Default (Normal) color, or customize here -->
+      <itemData name="HeaderValue" defStyleNum="dsNormal" />
+      
+      <!-- Comments -> Grey -->
+      <itemData name="Comment" defStyleNum="dsComment" color="#808080" />
+      <!-- Barlines -> Blue -->
+      <itemData name="Barline" defStyleNum="dsFunction" color="#0000ff" bold="1"/>
+      
+      <itemData name="Note" defStyleNum="dsDataType" />
+      <itemData name="Accidental" defStyleNum="dsOperator" />
+      <itemData name="String" defStyleNum="dsString" />
+    </itemDatas>
+  </highlighting>
+  <general>
+    <comments>
+      <comment name="singleLine" start="%" />
+    </comments>
+  </general>
+</language>

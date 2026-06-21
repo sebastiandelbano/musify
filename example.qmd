@@ -1,0 +1,303 @@
+---
+title: "{{< musify icon >}} Musify"
+---
+{{< musify logo >}}
+
+## Description
+Musify is a Quarto extension that processes music written in ABC notation and
+renders it as sheet music and audio.
+
+### Use cases
+- Keeping a personal stock of music scores in a Quarto document.
+- Writing a course on music theory with examples of sheet music and audio.
+- Writing a course on music for a specific instrument with examples of sheet music and audio.
+- Writing a course on ABC notation.
+
+### ABC Notation
+The best reference is <https://abcplus.sourceforge.net/abcplus_en.pdf>
+
+### Dependencies
+To use it, you need to install the extension and have the following tools installed:
+
+- `abcnode 1.23.2` for rendering sheet music to SVG, <http://moinejf.free.fr/>.
+- `abc2midi` for converting ABC to MIDI (in package `abcmidi`).
+- `svgo` for optimising the SVG output.
+- `fluidsynth` for converting MIDI to WAV.
+  - This requires a SoundFont. We use `Timbres of Heaven 4.0.sf2` located in
+    `~/.local/share/soundfonts/`. It can be found here
+    <https://midkar.com/SoundFonts/Timbres%20of%20Heaven%20(XGM)%204.00(G).7z>
+- `ffmpeg` for converting WAV to WebM.
+
+### Minimal Example
+Here is what a minimal example looks like:
+````text
+```{.abc scoreName="CMajorScale" visual="true" audio="true"
+echo="true"}
+X: 1
+K: C
+CDEF | GABc | cBAG | FEDC |
+```
+````
+The parameters above work as follows:
+
+- `scoreName`: A unique identifier for the code block, used for naming
+  output files.
+- `visual`: If `true`, the ABC code will be rendered as sheet music using
+  `abcnode`.
+- `audio`: If `true`, the ABC code will be converted to MIDI using
+  `abc2midi`, then to WAV using `fluidsynth`, and finally to WebM using
+  `ffmpeg`.
+- `echo`: If `true`, the ABC code will be displayed in the output for
+  reference.
+
+Here is how the code block above will render if we set `visual`, `audio`,
+and `echo` to `true`:
+```{.abc scoreName="CMajorScale" visual="true" audio="true" echo="true"}
+X: 1
+K: C
+CDEF | GABc | cBAG | FEDC |
+```
+## Examples
+### Breton Folk Tune
+An example with accompanying chords.
+```{.abc scoreName="breton" visual="true" audio="true" echo="true"}
+X: 2
+T: Evit Gabriel
+C: Daniel Thonon
+M: 4/4
+L: 1/8
+K: Em
+%%MIDI program 21  % accordion
+%%MIDI chordprog 25 % acoustic guitar (nylon)
+|: "Em"EFGF EFGF | EFGA B2AB | "Am"cBAG "D"F2GA | "B"BAGB F2 GF |
+"Em"EFGF EFGF | EFGA B2AB | "Am"cBAG "B7"FBGF |1 "Em"EGFD E2 GF :|2 "Em"EGFD E2 cd |
+|: "Am"eAAe "D"dcBc | "GMaj"dGGd "C"cBAG | "Am/F#"FGAc "B7"BAGF | "Em"EFGA B2cd |
+"Am"eAAe "D"dcBc | "G"dGGd "C"cBAG | "Am/F#"FGAc "B7"BAGF |1 "Em"EGFD E2 cd :|2 "Em"EGFD E2 GF |
+```
+### The Boar's Head
+Here is an example with lyrics; the oldest printed English Christmas Carol,
+<a href="https://en.wikipedia.org/wiki/Boar's_Head_Carol">The Boar's Head</a>,
+in Kalimba.
+
+```{.abc scoreName="boarsHead" visual="true" audio="true" echo="true"}
+X: 3
+T: The Boar's Head
+C: Trad.
+M: 4/4
+L: 1/4
+K: C
+%%MIDI program 108 % kalimba
+%%MIDI chordprog 108
+|:G|"C"c2 cc|"G"Bc "C"G3/2E/2|"F"FF "Dm"AF| [1"G"GA/2B/2 "C"c:| [2"G"GA/2B/2 "C"c2|
+w: The boar's head in hand bear I, be-decke'd with bays and rose-ma-ry. * * * *
+w: And I pray you, my mas-ters, be mer-ry, Quot * * * * estis in convivio.
+"C"ee "G"dd|"Am"AA "Em"G3/2E/2|"F"FF "Dm"AF|"G"GA/2B/2 "C"c||
+w: Ca-put a-pri de-fe-ro, _ Re-dens lau-des Do-mi-no. _
+```
+### Shave and a Haircut
+Here is an example with tablature notation.
+```{.abc scoreName="shaveAndHaircut" visual="true" audio="true" echo="true"}
+X: 4
+T: Shave and a haircut, two bits.
+C: Unknown (~1899)
+M: C
+L: 1/4
+%%score 1 T
+V: T
+%%strtab DGBdg
+K: C
+Q: 1/4=220
+V: 1
+%%MIDI channel 1
+%%MIDI program 105 % banjo
+c G/G/ _A G | z !>!B !>!c z |]
+w: Shave and a hair-cut, two bits.
+V: T
+%%MIDI channel 2
+%%MIDI control 7 0 % mute channel 2
+c G/G/ _A G | z !>!B !>!c z |]
+```
+### The Elephant
+An example in bass clef.
+```{.abc scoreName="theElephantTuba" visual="true" audio="true" echo="true"}
+X: 5
+T: The Elephant
+C: Camille Saint-Saens (1835-1921)
+L: 1/4
+Q: "Allegretto Pomposo " 1/4=112
+M: 3/4
+K: C clef=bass3 octave=-2
+%%MIDI program 58 % tuba
+%%measurenb 0     % bar numbers at start of line
+(G.c).c|!>!cd/c/ B/c/|(G.d).d     |!>!d2 f      |e/f/ g e    |
+c/d/e c|A/B/ c d     |d/c/ B/A/ G |(G .c) .c  |!>!c d/c/ B/c/|
+(A.d).d|!>!d2 c      |B B/A/ G/^F/|!>!E c/B/ A/G/|!>!A ^F .B |E2 z|]
+```
+### Grieg's Morning Mood
+An example with multiple keys.
+```{.abc scoreName="morningMood" visual="true" audio="true" echo="true"}
+X: 6
+T: Morning Mood
+T: (from Peer Gynt Suite No. 1, Op. 46)
+C: Edvard Grieg (1843-1907)
+L: 1/8
+Q: "Allegretto pastorale " 1/4=58
+M: 6/8
+%%MIDI program 73              % flute
+[K:D]  (ecB ABc | ecB AB/c/B/c/ | ece fcf | ecB A3) |
+[K:G]  (AFE DEF | AFE DE/F/E/F/ | AFA BFB | AFE D3) |
+[K:C]  (dBA GAB | dBA GA/B/A/B/ | dBd eBe | dBA G3) |
+       (GED CDE | GED CD/E/D/E/ | GEG AEA | GED C3) |
+       (cAG FGA | cAG FG/A/G/A/ | cAc dAd | cAG F3) |
+[K:F]  (fdc Bcd | fdc Bc/d/c/d/ | fdf gdg | fdc B3) |
+[K:Bb] (BGF EFG | BGF EF/G/F/G/ | BGB cGc | BGF E3) |
+[K:Eb] (ecB ABc | ecB AB/c/B/c/ | ece fcf | ecB A3) |
+[K:Ab] (afe def | afe de/f/e/f/ | afa bfb | afe d3) |
+[K:B]  (cAG FGA | cAG FG/A/G/A/ | cAc dAd | cAG F3) |
+       (fdc Bcd | fdc Bc/d/c/d/ | fdf gdg | fdc B3) |
+       (BGF EFG | BGF EF/G/F/G/ | BGB cGc | BGF E3) |
+[K:A]  (ecB ABc | ecB AB/c/B/c/ | ece fcf | ecB A3) |]
+```
+### Mozart: Piano Sonata No. 16
+Piano grand staff example.
+```{.abc scoreName="mozartK545" visual="true" audio="true" echo="true"}
+X: 7
+T: Piano Sonata No. 16 in C Major
+T: (K. 545)
+C: Wolfgang Amadeus Mozart (1756-1791)
+M: 4/4
+L: 1/8
+Q: 1/4=120
+%%score {1 2}
+K: C
+V: 1 clef=treble
+%%MIDI program 0
+c4 (eg) | (fa) g4 | (c'4 g) f | (e/f/g) c2 |
+V: 2 clef=bass
+%%MIDI program 0
+[C,G,E,] [C,G,E,] [C,G,E,] [C,G,E,] | [D,G,F,] [D,G,F,] [D,G,F,] [D,G,F,] | [E,G,G,] [E,G,G,] [D,G,F,] [D,G,F,] | [C,G,E,] [C,G,E,] [C,G,E,] [C,G,E,] |
+```
+### Bach Cello Suite No. 1
+An example in alto clef for viola.
+```{.abc scoreName="bachViola" visual="true" audio="true" echo="true"}
+X: 8
+T: Bach Cello Suite No. 1 - Prelude
+T: (for Viola)
+C: Johann Sebastian Bach (1685-1750)
+M: 4/4
+L: 1/16
+Q: 1/4=80
+V: 1 clef=alto
+K: G
+%%MIDI program 42
+G,DGB ABGB G,DGB ABGB | G,EAc BcAc G,EAc BcAc | G,FAd cBAd G,FAd cBAd | G,DGB ABGB G,DGB ABGB |
+E,B,EG FEGE E,B,EG FEGE | E,^A,CE DECE E,^A,CE DECE | E,B,DF EDEF E,B,DF EDEF | E,^G,DF EDEF E,^G,DF EDEF |
+G,DGA BcBA BcdB GFEF | G,DGA BcBA BcdB GFEF | G,DGB ABGB G,DGB ABGB |
+```
+## Installation of Dependencies
+### node.js
+Some commands below require nodejs.
+
+#### Linux and MacOS
+Use the OS package manager. For example,
+on Debian-based Linux distributions:
+```bash
+sudo apt install nodejs npm
+```
+or on MacOS:
+```bash
+brew install node npm
+```
+#### Windows
+Download the msi installer from <https://nodejs.org/en/download/>, on the
+button labelled "Windows Installer (.msi)".
+
+### abcnode
+The version in npm is deprecated.
+
+#### Linux and MacOS
+Download the scripts from <http://moinejf.free.fr/> and put them in a directory
+in your PATH. Here are instructions that will do this:
+```bash
+wget http://moinejf.free.fr/abc2svg.zip
+# can also use the tar.bz2 version: wget http://moinejf.free.fr/abc2svg.tar.bz2
+sudo mkdir -p /usr/local/share/abc2svg
+sudo unzip abc2svg.zip -d /usr/local/share/abc2svg
+sudo mv /usr/local/share/abc2svg/abc2svg-v1.23.2/* /usr/local/share/abc2svg/
+sudo rmdir /usr/local/share/abc2svg/abc2svg-v1.23.2/
+sudo chmod +x /usr/local/share/abc2svg/abcnode
+sudo ln -s /usr/local/share/abc2svg/abcnode /usr/local/bin/abcnode
+```
+#### Windows
+The following installs a deprecated version of abcnode/abc2svg. Installing a more up to date
+version is a bit more complicated.
+```bash
+npm install -g abcnode
+```
+This deprecated version will create svg files with more than one `<svg>` tag which
+will cause `svgo` to fail to optimize the `svg` file with an error. The resulting `svg` file
+will still work fine but will be a bit larger than needed.
+
+### svgo
+#### Linux, MacOS and Windows
+```bash
+npm install -g svgo
+```
+### abcmidi
+#### Linux
+```bash
+sudo apt install abcmidi
+```
+#### MacOS
+```bash
+brew install abcmidi
+```
+#### Windows
+Download `abcplus_en-2024-07-10.zip` using the following link:
+<https://master.dl.sourceforge.net/project/abcplus/Abcplus/abcplus_en-2024-07-10.zip?viasf=1&fid=a76717a68f18d08d>.
+Then follow the instructions in `README`.
+
+The following will do the job in a Cmd terminal assuming the zip file is
+unzipped in the Downloads folder (you might need to adjust the exact path):
+```cmd
+cd /d "%USERPROFILE%\Downloads\abctools-20260609-cosmo\abctools-20260609"
+ren abc* abc*.exe
+ren mid* mid*.exe
+ren mftext mftext.exe
+ren yaps yaps.exe
+move *.exe "%USERPROFILE%\.local\bin\"
+```
+### fluidsynth
+#### Linux
+```bash
+sudo apt install fluidsynth
+```
+#### MacOS
+```bash
+brew install fluidsynth
+```
+#### Windows
+Run the following with elevated privileges:
+```bash
+choco install fluidsynth
+```
+### Timbres of Heaven SoundFont
+Download the SoundFont from
+<https://midkar.com/SoundFonts/Timbres%20of%20Heaven%20(XGM)%204.00(G).7z> and
+extract it to `~/.local/share/soundfonts/` (Linux and MacOS) or
+`%USERPROFILE%\.local\share\soundfonts\` in Windows.
+
+### ffmpeg
+#### Linux
+```bash
+sudo apt install ffmpeg
+```
+#### MacOS
+```bash
+brew install ffmpeg
+```
+#### Windows
+Run the following with elevated privileges:
+```bash
+choco install ffmpeg-full
+```

@@ -1,0 +1,50 @@
+@font-face {
+  font-family: 'Bravura';
+  src: url('../fonts/Bravura.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.musify-svg-container {
+  font-family: 'Bravura', sans-serif;
+  width: 100%;
+  max-width: 100%;
+}
+
+.musify-svg-container svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Color ABC code block preamble headers (e.g., X:, T:, M:, L:) in purple */
+code.sourceCode.abc span.kw,
+code.sourceCode.abc2 span.kw {
+  color: #8e44ad !important;
+  font-weight: bold;
+}
+
+/* Color ABC code block preamble values and comments in a readable grey */
+code.sourceCode.abc span.co,
+code.sourceCode.abc2 span.co {
+  color: #888888 !important;
+}
+
+/* Audio container spacing and sizing */
+.musify-audio-container {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.musify-audio-container audio {
+  width: 100%;
+  max-width: 400px;
+  display: block;
+}
+
+/* Ensure tablature numbers are visible (black text on their white background boxes) in both light and dark modes */
+svg text.bg1,
+svg text[class*="bg"] {
+  fill: #000000 !important;
+}

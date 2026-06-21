@@ -1,0 +1,22 @@
+{
+  "runtime": {
+    "version": "LuaJIT"
+  },
+  "diagnostics": {
+    "globals": [
+      "quarto",
+      "pandoc",
+      "it",
+      "describe",
+      "before_each",
+      "after_each"
+    ]
+  },
+  "workspace": {
+    "library": [
+      "${3rd}/quarto/library",
+      "${3rd}/pandoc/library"
+    ],
+    "checkThirdParty": false
+  }
+}

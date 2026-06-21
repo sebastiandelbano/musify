@@ -1,0 +1,6 @@
+/.quarto/
+**/*.quarto_ipynb
+*.log
+*.bak
+output/
+cache/

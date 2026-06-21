@@ -1,0 +1,17 @@
+title: Musify
+author: Sebastian del Bano Rollin
+version: 1.0.0
+description: A Quarto extension for rendering ABC music notation as SVG and audio.
+url: https://github.com/sebastiandelbanorollin/musify
+quarto-version: ">=1.0.0"
+contributes:
+  filters:
+    - musify.lua
+  shortcodes:
+    - musify.lua
+  formats:
+    html:
+      css: [resources/css/musify.css]
+      format-resources:
+        - resources/css/musify.css
+        - resources/fonts/Bravura.woff2
