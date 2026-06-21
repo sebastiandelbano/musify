@@ -1,90 +1,129 @@
+<p align="center">
+  <img src="_extensions/sebastiandelbanorollin/musify/resources/images/musify.svg" alt="Musify Logo" width="260"/>
+</p>
+
 # Musify: Quarto Extension for Music Notation
 
-Musify is a [Quarto](https://quarto.org/) extension that allows you to embed high-quality music notation and audio directly into your documents using [ABC notation](https://abcnotation.com/).
+Musify is a [Quarto](https://quarto.org/) extension that allows you to embed high-quality, interactive music notation and synthesized audio directly into your documents using [ABC notation](https://abcnotation.com/).
 
-It converts ABC code blocks into:
-- **Visuals**: Scalable Vector Graphics (SVG) using `abcm2ps` or `abc2svg`.
-- **Audio**: WebM files generated via `abc2midi`, `fluidsynth`, and `ffmpeg`.
+It compiles ABC code blocks into:
+* 🎼 **Visual Sheet Music**: Scalable Vector Graphics (SVG) using `abc2svg` / `abcnode`.
+* 🔊 **Audio Playback**: WebM audio files synthesized via `abc2midi`, `fluidsynth`, and `ffmpeg`.
+
+---
 
 ## Features
 
-- **Integrated Audio Player**: Automatically generates and embeds an HTML5 audio player.
-- **Customizable Rendering**: Choose between multiple renderers and pass custom options.
-- **Smart Metadata**: Configure global settings in `_quarto.yml` or override them per code block.
-- **Dependency Tracking**: Includes a built-in checker to ensure your environment is ready.
+* **Cross-Platform Support**: Fully compatible out-of-the-box on Windows, macOS, and Linux.
+* **Integrated Audio Player**: Automatically generates and embeds an HTML5 audio controller inline.
+* **SoundFont Synthesis**: Re-renders MIDI files into rich audio using Fluidsynth and high-quality SoundFonts.
+* **Flexible Customization**: Configure global options in `_quarto.yml` or override settings per-block.
+* **Cached Builds**: Only regenerates assets when the ABC source code changes, speeding up document compiles.
+
+---
+
+## Demo Showcase
+
+Here is an example of the compiled visual sheet music and interactive audio controller:
+
+![Rendered Sheet Music Screenshot](resources/images/demo_score.png)
+*Figure: Visual sheet music output (placeholder—replace with your own screenshot).*
+
+![Audio Playback Controller Screenshot](resources/images/demo_audio.png)
+*Figure: Interactive inline audio controller (placeholder—replace with your own screenshot).*
+
+[👉 View Live Interactive Demo Page](https://sebastiandelbanorollin.github.io/musify/)
+
+---
 
 ## Installation
 
-To install the extension in your Quarto project, run:
+To add the extension to your Quarto project, run the following command in your terminal:
 
 ```bash
 quarto add sebastiandelbanorollin/musify
 ```
 
+---
+
 ## System Dependencies
 
-Musify relies on several external tools. Ensure these are installed on your system:
+Musify relies on several external utilities to render sheets and synthesize audio:
 
-- **ABC Tools**: `abcm2ps` (or `abcnode` for `abc2svg`) and `abc2midi`.
-- **Audio Generation**: `fluidsynth` and `ffmpeg`.
-- **Python 3**: Used for backend processing.
-- **SoundFont**: A high-quality SoundFont (e.g., *Timbres of Heaven*) is required for audio synthesis.
+1. **`abc2svg` (or `abcnode`)**: For converting ABC notation into SVG vector graphics.
+2. **`abc2midi`**: For converting ABC files into MIDI sequences (often packaged as `abcmidi`).
+3. **`fluidsynth`**: For synthesizing MIDI sequences into high-quality WAV audio.
+4. **`ffmpeg`**: For converting WAV audio into WebM format for browser playback.
+5. **Python 3**: Used for backend execution.
+
+> [!TIP]
+> On Windows, you can install the latest official `abc2svg` using the instructions provided in [abc2svg.md](abc2svg.md) to run it natively.
 
 ### SoundFont Setup
-By default, Musify looks for a SoundFont at
-`~/.local/share/soundfonts/timbresOfHeaven4.00.sf2`. You can customize this in
-your metadata:
+Audio synthesis requires a SoundFont file (e.g. *Timbres of Heaven*). By default, Musify searches for the SoundFont file at the local user path:
+* **Windows**: `%USERPROFILE%\.local\share\soundfonts\timbresOfHeaven4.00.sf2`
+* **Linux/macOS**: `~/.local/share/soundfonts/timbresOfHeaven4.00.sf2`
+
+If you have placed your SoundFont elsewhere, you can configure it globally in `_quarto.yml` or your environment variables:
 
 ```yaml
 musify:
   sf2-path: "/path/to/your/font.sf2"
 ```
+*(Alternatively, define the environment variable `MUSIFY_SF2_PATH` pointing to the `.sf2` file).*
+
+---
 
 ## Usage
 
-Add a code block with the `{abc}` class to your Quarto document:
+Enable the filter by adding `sebastiandelbanorollin/musify` to your document's frontmatter, and use `{abc}` code blocks:
 
 ```markdown
 ---
 title: "My Music Sheet"
 filters:
-  - musify
+  - sebastiandelbanorollin/musify
 ---
 
 ## Example Piece
 
-{abc scoreName="my_song" visual="true" audio="true" fig-cap="A simple melody"}
-X:1
-T:Simple Scale
-M:4/4
-L:1/4
-K:C
-C D E F | G A B c |
+```{.abc scoreName="CMajorScale" visual="true" audio="true" fig-cap="A simple scale"}
+X: 1
+K: C
+CDEF | GABc | cBAG | FEDC |
+```
 ```
 
-### Options
+### Code Block Options
 
 | Attribute | Description | Default |
 |-----------|-------------|---------|
-| `scoreName` | Base name for generated files | SHA1 hash |
-| `visual` | Enable SVG generation | `false` |
-| `audio` | Enable Audio generation | `false` |
-| `fig-cap` | Caption for the music figure | `""` |
-| `renderer` | Rendering engine (`abcm2ps` or `abc2svg`) | `abcm2ps` |
-| `image-dir`| Directory for SVG output | `resources/images` |
-| `audio-dir`| Directory for audio output | `resources/audio` |
+| `scoreName` | Unique base name for generated image/audio files | SHA1 hash of code |
+| `visual` | Enable visual sheet music generation (SVG) | `false` |
+| `audio` | Enable audio playback generation (WebM) | `false` |
+| `fig-cap` | Caption text for the sheet music figure | `""` |
+| `image-dir` | Directory path where SVGs are saved | `cache/images` |
+| `audio-dir` | Directory path where WebMs are saved | `cache/audio` |
+| `options` | Extra layout options passed directly to `abc2svg` | `--musicfont Bravura` |
 
-## Configuration
+---
 
-You can set global defaults in your `_quarto.yml`:
+## Global Configuration
+
+You can set global default commands and directory paths in `_quarto.yml`:
 
 ```yaml
 musify:
-  renderer: "abcm2ps"
-  image-dir: "assets/music/images"
-  audio-dir: "assets/music/audio"
-  bin-ffmpeg: "/usr/local/bin/ffmpeg"
+  image-dir: "cache/images"
+  audio-dir: "cache/audio"
+  bin-abc2svg: "abc2svg"     # Path or command for abc2svg
+  bin-abc2midi: "abc2midi"   # Path or command for abc2midi
+  bin-fluidsynth: "fluidsynth"
+  bin-ffmpeg: "ffmpeg"
+  sf2-path: "~/.local/share/soundfonts/timbresOfHeaven4.00.sf2"
 ```
+
+---
 
 ## License
 
