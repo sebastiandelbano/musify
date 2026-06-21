@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="_extensions/sebastiandelbanorollin/musify/resources/images/musify.svg" alt="Musify Logo" width="260"/>
+  <img src="_extensions/sebastiandelbanorollin/musify/resources/images/musifyDark.svg" alt="Musify Logo" width="260"/>
 </p>
 
 # Musify: Quarto Extension for Music Notation
@@ -26,11 +26,8 @@ It compiles ABC code blocks into:
 
 Here is an example of the compiled visual sheet music and interactive audio controller:
 
-![Rendered Sheet Music Screenshot](resources/images/demo_score.png)
-*Figure: Visual sheet music output (placeholder—replace with your own screenshot).*
+![Rendered Sheet Music Screenshot and Playback Controller](resources/images/demo_score.png)
 
-![Audio Playback Controller Screenshot](resources/images/demo_audio.png)
-*Figure: Interactive inline audio controller (placeholder—replace with your own screenshot).*
 
 [👉 View Live Interactive Demo Page](https://sebastiandelbanorollin.github.io/musify/)
 
@@ -55,9 +52,6 @@ Musify relies on several external utilities to render sheets and synthesize audi
 3. **`fluidsynth`**: For synthesizing MIDI sequences into high-quality WAV audio.
 4. **`ffmpeg`**: For converting WAV audio into WebM format for browser playback.
 5. **Python 3**: Used for backend execution.
-
-> [!TIP]
-> On Windows, you can install the latest official `abc2svg` using the instructions provided in [abc2svg.md](abc2svg.md) to run it natively.
 
 ### SoundFont Setup
 Audio synthesis requires a SoundFont file (e.g. *Timbres of Heaven*). By default, Musify searches for the SoundFont file at the local user path:
