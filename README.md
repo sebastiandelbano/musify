@@ -92,7 +92,6 @@ X: 1
 K: C
 CDEF | GABc | cBAG | FEDC |
 ```
-```
 
 ### Code Block Options
 
