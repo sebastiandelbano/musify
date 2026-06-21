@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="_extensions/sebastiandelbanorollin/musify/resources/images/musifyDark.svg" alt="Musify Logo" width="260"/>
+  <img src="_extensions/sebastiandelbano/musify/resources/images/musifyDark.svg" alt="Musify Logo" width="260"/>
 </p>
 
 # Musify: Quarto Extension for Music Notation
@@ -32,7 +32,7 @@ Here is an example of the compiled visual sheet music and interactive audio cont
 ![Audio Playback Controller Screenshot](resources/images/demo_audio.png)
 *Figure: Interactive inline audio controller (placeholder—replace with your own screenshot).*
 
-[👉 View Live Interactive Demo Page](https://sebastiandelbanorollin.github.io/musify/)
+[👉 View Live Interactive Demo Page](https://sebastiandelbano.github.io/musify/)
 
 ---
 
@@ -76,13 +76,13 @@ musify:
 
 ## Usage
 
-Enable the filter by adding `sebastiandelbanorollin/musify` to your document's frontmatter, and use `{abc}` code blocks:
+Enable the filter by adding `sebastiandelbano/musify` to your document's frontmatter, and use `{abc}` code blocks:
 
 ```markdown
 ---
 title: "My Music Sheet"
 filters:
-  - sebastiandelbanorollin/musify
+  - sebastiandelbano/musify
 ---
 
 ## Example Piece

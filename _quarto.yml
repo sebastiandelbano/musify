@@ -18,6 +18,6 @@ format:
       dark: darkly
       light: flatly
     syntax-definitions:
-      - _extensions/sebastiandelbanorollin/musify/resources/syntax/abc2.xml
+      - _extensions/sebastiandelbano/musify/resources/syntax/abc2.xml
 filters:
-  - sebastiandelbanorollin/musify
+  - sebastiandelbano/musify

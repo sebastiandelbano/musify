@@ -2,7 +2,7 @@ title: Musify
 author: Sebastian del Bano Rollin
 version: 1.0.0
 description: A Quarto extension for rendering ABC music notation as SVG and audio.
-url: https://github.com/sebastiandelbanorollin/musify
+url: https://github.com/sebastiandelbano/musify
 quarto-version: ">=1.0.0"
 contributes:
   filters:
