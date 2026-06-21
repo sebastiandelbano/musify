@@ -70,7 +70,8 @@ musify:
 
 ## Usage
 
-Enable the filter by adding `sebastiandelbanorollin/musify` to your document's frontmatter, and use `{abc}` code blocks:
+Enable the filter by adding `sebastiandelbanorollin/musify` to your document's
+frontmatter, and use `{.abc}` code blocks:
 
 ```markdown
 ---
@@ -85,7 +86,6 @@ filters:
 X: 1
 K: C
 CDEF | GABc | cBAG | FEDC |
-```
 ```
 
 ### Code Block Options
